@@ -1,0 +1,700 @@
+/* ====================================================================
+   RESPONSIVE.CSS - Mobile-First Responsive Design
+   - Mobile-first breakpoints
+   - Mobile table→cards transformation
+   - Touch-friendly button sizing
+   - Print styles
+   - Dark mode preparation
+   - Accessibility features
+   ==================================================================== */
+
+/* ====================================================================
+   1. MOBILE-FIRST DESIGN (< 640px)
+   ==================================================================== */
+
+/* Default mobile styles */
+.container {
+  padding: var(--spacing-4);
+}
+
+.container-fluid {
+  padding: var(--spacing-4);
+}
+
+/* Stack layout on mobile */
+.grid-1,
+.grid-2,
+.grid-3,
+.grid-4 {
+  grid-template-columns: 1fr;
+}
+
+/* Mobile-friendly form */
+.form-group {
+  margin-bottom: var(--spacing-4);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  font-size: 16px;
+}
+
+/* Button sizing for touch (min 44px) */
+.btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: var(--font-size-base);
+}
+
+.btn-sm {
+  min-height: 40px;
+  padding: var(--spacing-2) var(--spacing-3);
+}
+
+.btn-lg {
+  min-height: 48px;
+  padding: var(--spacing-4) var(--spacing-6);
+}
+
+/* Full-width buttons on mobile */
+.btn-block {
+  width: 100%;
+}
+
+/* Mobile table transformation */
+.table-responsive {
+  margin-bottom: var(--spacing-4);
+}
+
+.table-responsive .table {
+  width: 100%;
+}
+
+/* Stack navigation */
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+nav a {
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--border-radius);
+}
+
+/* Modal adjustments for mobile */
+.modal {
+  max-width: 100%;
+  width: calc(100% - var(--spacing-4) * 2);
+  margin: auto;
+}
+
+.modal-backdrop {
+  padding: var(--spacing-2);
+}
+
+/* Hide desktop-only elements */
+.hide-mobile {
+  display: none;
+}
+
+/* Alert adjustments */
+.alert {
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+/* Card stacking */
+.card {
+  margin-bottom: var(--spacing-4);
+}
+
+/* ====================================================================
+   2. TABLET BREAKPOINT (640px - 1024px)
+   ==================================================================== */
+
+@media (min-width: 640px) {
+  .container {
+    padding: var(--spacing-6);
+  }
+
+  .container-fluid {
+    padding: var(--spacing-6);
+  }
+
+  /* 2-column grid on tablet */
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-1 {
+    grid-template-columns: 1fr;
+  }
+
+  /* Table still visible on tablet */
+  .table {
+    font-size: var(--font-size-sm);
+  }
+
+  .table th,
+  .table td {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+
+  /* Navigation adjustments */
+  nav {
+    flex-direction: row;
+    gap: var(--spacing-2);
+  }
+
+  /* Modal sizing */
+  .modal {
+    max-width: 500px;
+  }
+
+  /* Show desktop-only navigation */
+  .nav-tablet {
+    display: block;
+  }
+
+  /* Sidebar layouts */
+  .sidebar-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: var(--spacing-6);
+  }
+
+  /* Show pagination on tablet */
+  .pagination-tablet {
+    display: flex;
+  }
+}
+
+/* ====================================================================
+   3. DESKTOP BREAKPOINT (> 1024px)
+   ==================================================================== */
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1200px;
+    padding: var(--spacing-8);
+  }
+
+  .container-fluid {
+    padding: var(--spacing-8);
+  }
+
+  /* 3-4 column grid on desktop */
+  .grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Table visible with hover effects */
+  .table {
+    font-size: var(--font-size-sm);
+  }
+
+  .table th,
+  .table td {
+    padding: var(--spacing-3);
+  }
+
+  .table tbody tr:hover {
+    background-color: var(--color-primary-50);
+  }
+
+  /* Horizontal navigation */
+  nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: var(--spacing-4);
+  }
+
+  /* Modal with larger max-width */
+  .modal {
+    max-width: 600px;
+  }
+
+  /* Desktop sidebar layout */
+  .sidebar-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: var(--spacing-8);
+  }
+
+  /* Show desktop elements */
+  .show-desktop {
+    display: block;
+  }
+
+  .hide-desktop {
+    display: none;
+  }
+
+  /* Multi-column forms */
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-4);
+  }
+
+  .form-col {
+    grid-column: span 1;
+  }
+
+  .form-col-full {
+    grid-column: 1 / -1;
+  }
+
+  /* Horizontal button groups */
+  .btn-group {
+    display: flex;
+    gap: var(--spacing-2);
+  }
+}
+
+/* ====================================================================
+   4. LARGE DESKTOP (> 1200px)
+   ==================================================================== */
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1400px;
+    padding: var(--spacing-10);
+  }
+
+  /* 4-5 column grids */
+  .grid-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .grid-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* ====================================================================
+   5. MOBILE TABLE TO CARDS TRANSFORMATION
+   ==================================================================== */
+
+@media (max-width: 639px) {
+  /* Hide table header and use data attributes */
+  .table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+  }
+
+  .table tbody,
+  .table tr {
+    display: block;
+  }
+
+  .table tr {
+    margin-bottom: var(--spacing-4);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+  }
+
+  .table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-3);
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+    padding-left: 50%;
+  }
+
+  .table td:last-child {
+    border-bottom: none;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: var(--spacing-3);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    width: 45%;
+  }
+
+  /* Zebra striping for card rows */
+  .table tbody tr:nth-child(odd) {
+    background-color: var(--bg-primary);
+  }
+
+  .table tbody tr:nth-child(even) {
+    background-color: var(--color-gray-50);
+  }
+
+  .table tbody tr:hover {
+    background-color: var(--color-primary-50);
+  }
+}
+
+/* ====================================================================
+   6. PRINT STYLES
+   ==================================================================== */
+
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+
+  p {
+    page-break-inside: avoid;
+  }
+
+  table {
+    page-break-inside: avoid;
+    border-collapse: collapse;
+  }
+
+  table thead {
+    display: table-header-group;
+  }
+
+  table tbody tr {
+    page-break-inside: avoid;
+  }
+
+  tr:last-child {
+    border-bottom: 2px solid #000;
+  }
+
+  /* Hide elements on print */
+  .no-print,
+  .btn-group,
+  .hide-print {
+    display: none !important;
+  }
+
+  /* Show print-specific elements */
+  .print-only {
+    display: block !important;
+  }
+
+  /* Link styling for print */
+  a {
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  /* Remove backgrounds from buttons */
+  button {
+    border: 1px solid #000;
+    background: white;
+    color: black;
+  }
+
+  /* Modal hidden in print */
+  .modal-backdrop,
+  .modal {
+    display: none !important;
+  }
+}
+
+/* ====================================================================
+   7. DARK MODE PREPARATION
+   ==================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1f2937;
+    --bg-secondary: #111827;
+    --bg-tertiary: #374151;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-tertiary: #9ca3af;
+    --border-color: #4b5563;
+    --border-color-light: #374151;
+  }
+
+  body {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+  }
+
+  .btn-secondary {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-gray-600);
+  }
+
+  .table {
+    background-color: var(--bg-primary);
+  }
+
+  .table thead {
+    background-color: var(--bg-tertiary);
+  }
+
+  .card {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+  }
+
+  .modal {
+    background-color: var(--bg-primary);
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+  }
+
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    border-color: var(--color-primary);
+    background-color: var(--bg-tertiary);
+  }
+
+  input::placeholder {
+    color: var(--text-tertiary);
+  }
+}
+
+/* ====================================================================
+   8. ACCESSIBILITY FEATURES
+   ==================================================================== */
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: more) {
+  :root {
+    --color-primary: #0a3db3;
+    --color-success: #0b6623;
+    --color-error: #aa0000;
+    --border-color: #333;
+  }
+
+  body {
+    border: 1px solid var(--border-color);
+  }
+
+  .btn {
+    border: 2px solid currentColor;
+  }
+
+  .table,
+  .card {
+    border: 2px solid var(--border-color);
+  }
+
+  .table th,
+  .table td,
+  .card-header,
+  .card-footer {
+    border: 1px solid var(--border-color);
+  }
+}
+
+/* Focus visible for keyboard navigation */
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ====================================================================
+   9. UTILITY RESPONSIVE CLASSES
+   ==================================================================== */
+
+/* Display utilities */
+@media (max-width: 639px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+
+  .visible-mobile {
+    display: block !important;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .hidden-tablet {
+    display: none !important;
+  }
+
+  .visible-tablet {
+    display: block !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hidden-desktop {
+    display: none !important;
+  }
+
+  .visible-desktop {
+    display: block !important;
+  }
+}
+
+/* Margin utilities responsive */
+@media (min-width: 640px) {
+  .sm\:m-4 { margin: var(--spacing-4); }
+  .sm\:mt-6 { margin-top: var(--spacing-6); }
+  .sm\:mb-6 { margin-bottom: var(--spacing-6); }
+  .sm\:px-6 { padding-left: var(--spacing-6); padding-right: var(--spacing-6); }
+}
+
+@media (min-width: 1024px) {
+  .md\:m-6 { margin: var(--spacing-6); }
+  .md\:mt-8 { margin-top: var(--spacing-8); }
+  .md\:mb-8 { margin-bottom: var(--spacing-8); }
+  .md\:px-8 { padding-left: var(--spacing-8); padding-right: var(--spacing-8); }
+}
+
+/* Flex direction responsive */
+@media (min-width: 640px) {
+  .sm\:flex-row {
+    flex-direction: row;
+  }
+
+  .sm\:gap-4 {
+    gap: var(--spacing-4);
+  }
+}
+
+/* Grid column span responsive */
+@media (min-width: 640px) {
+  .sm\:col-span-2 {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .md\:col-span-3 {
+    grid-column: span 3;
+  }
+
+  .md\:col-span-4 {
+    grid-column: span 4;
+  }
+}
+
+/* Width utilities responsive */
+@media (min-width: 1024px) {
+  .md\:w-1\/2 {
+    width: 50%;
+  }
+
+  .md\:w-1\/3 {
+    width: 33.333%;
+  }
+
+  .md\:w-2\/3 {
+    width: 66.667%;
+  }
+}
+
+/* ====================================================================
+   10. HAMBURGER MENU (Mobile Navigation)
+   ==================================================================== */
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-2);
+  font-size: var(--font-size-lg);
+}
+
+@media (max-width: 639px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--spacing-4);
+    flex-direction: column;
+    z-index: var(--z-dropdown);
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-menu a {
+    padding: var(--spacing-3) 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .nav-menu a:last-child {
+    border-bottom: none;
+  }
+}
