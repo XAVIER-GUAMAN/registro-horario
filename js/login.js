@@ -14,6 +14,7 @@ class LoginController {
         this.passwordToggleBtn = null;
         this.alertContainer = null;
         this.isSubmitting = false;
+        
 
         this.init();
     }
@@ -96,6 +97,9 @@ class LoginController {
         if (this.passwordToggleBtn) {
             this.passwordToggleBtn.addEventListener('click', (e) => this.togglePasswordVisibility(e));
         }
+
+        // El botón de registro es manejado por RegisterManager en register.js
+        // No agregamos listeners aquí para evitar conflictos
 
         // Listeners para navegación por teclado
         this.setupKeyboardNavigation();
@@ -215,7 +219,8 @@ class LoginController {
         }
 
         // Validar contraseña
-        const passwordValidation = ValidationUtils.validatePassword(password);
+        const passwordValidation = ValidationUtils.validatePasswordLogin(password);
+        //const passwordValidation = ValidationUtils.validatePassword(password);
         if (!passwordValidation.isValid) {
             this.showFieldError('password', passwordValidation.message);
             isValid = false;
@@ -383,6 +388,7 @@ class LoginController {
             this.setLoadingState(false);
         }
     }
+
 
     /**
      * Configura el estado de carga del botón

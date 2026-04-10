@@ -38,6 +38,36 @@ class AuthManager {
     }
 
     /**
+     * Registro de usuario (SIN insert manual en usuarios, lo hace el trigger)
+     */
+    async register(email, password, nombre, apellidos) {
+        try {
+            if (!email || !password) {
+                throw new Error('Email y contraseña requeridos');
+            }
+
+            const { data, error } = await supabase.auth.signUp({
+                email: email.toLowerCase().trim(),
+                password: password,
+                options: {
+                    data: {
+                        nombre,
+                        apellidos
+                    }
+                }
+            });
+
+            if (error) throw error;
+
+            return { success: true };
+
+        } catch (error) {
+            console.error('Error en registro:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
+    /**
      * Autentica un usuario
      */
     async login(email, password) {
@@ -48,9 +78,14 @@ class AuthManager {
                 throw new Error(emailValidation.message);
             }
 
-            const passwordValidation = ValidationUtils.validatePassword(password);
+            //const passwordValidation = ValidationUtils.validatePassword(password);
+           /* const passwordValidation = ValidationUtils.validatePasswordLogin(password);
             if (!passwordValidation.isValid) {
                 throw new Error(passwordValidation.message);
+            }*/
+           // Validar solo required
+            if (!password) {
+                throw new Error('Contraseña requerida');
             }
 
             // Verificar bloqueo por intentos fallidos
@@ -77,7 +112,7 @@ class AuthManager {
             const { data: userData, error: userError } = await supabase
                 .from('usuarios')
                 .select('*')
-                .eq('email', email.toLowerCase().trim())
+                .eq('id', data.user.id)
                 .single();
 
             if (userError || !userData) {

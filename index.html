@@ -125,7 +125,13 @@
                                 <span>Autenticando...</span>
                             </div>
                         </button>
+                        <div style="margin-top: 10px; text-align: center;">
+                            <button type="button" id="registerBtn" class="btn-secondary">
+                                Registrarse
+                            </button>
+                        </div>
                     </div>
+                    
 
                     <!-- Help Links -->
                     <div class="login-help">
@@ -163,11 +169,200 @@
         </div>
     </div>
 
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal" role="dialog" aria-labelledby="registerModalTitle" aria-hidden="true">
+        <div class="modal-overlay"></div>
+        <div class="modal-content register-modal-content">
+            <div class="modal-header">
+                <h2 id="registerModalTitle" class="modal-title">Crear Nueva Cuenta</h2>
+                <button type="button" class="modal-close-btn" aria-label="Cerrar modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="registerForm" class="register-form" novalidate>
+                <!-- Alert Container -->
+                <div id="registerAlertContainer" class="alert-container" role="alert" aria-live="polite" aria-atomic="true"></div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="registerEmail" class="form-label">
+                        Correo Electrónico
+                        <span class="required-indicator" aria-label="Campo obligatorio">*</span>
+                    </label>
+                    <div class="input-container">
+                        <input
+                            type="email"
+                            id="registerEmail"
+                            name="email"
+                            class="form-input"
+                            placeholder="tu.email@empresa.com"
+                            autocomplete="email"
+                            autocapitalize="none"
+                            spellcheck="false"
+                            required
+                            aria-describedby="registerEmail-error"
+                        >
+                        <div class="input-icon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="registerEmail-error" class="form-error" aria-live="polite"></div>
+                </div>
+
+                <!-- Nombre Field -->
+                <div class="form-group">
+                    <label for="registerNombre" class="form-label">
+                        Nombre
+                        <span class="required-indicator" aria-label="Campo obligatorio">*</span>
+                    </label>
+                    <div class="input-container">
+                        <input
+                            type="text"
+                            id="registerNombre"
+                            name="nombre"
+                            class="form-input"
+                            placeholder="Tu nombre"
+                            required
+                            aria-describedby="registerNombre-error"
+                        >
+                        <div class="input-icon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="registerNombre-error" class="form-error" aria-live="polite"></div>
+                </div>
+
+                <!-- Apellidos Field -->
+                <div class="form-group">
+                    <label for="registerApellidos" class="form-label">
+                        Apellidos
+                    </label>
+                    <div class="input-container">
+                        <input
+                            type="text"
+                            id="registerApellidos"
+                            name="apellidos"
+                            class="form-input"
+                            placeholder="Tus apellidos (opcional)"
+                            aria-describedby="registerApellidos-error"
+                        >
+                        <div class="input-icon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="registerApellidos-error" class="form-error" aria-live="polite"></div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="registerPassword" class="form-label">
+                        Contraseña
+                        <span class="required-indicator" aria-label="Campo obligatorio">*</span>
+                    </label>
+                    <div class="input-container">
+                        <input
+                            type="password"
+                            id="registerPassword"
+                            name="password"
+                            class="form-input password-input"
+                            placeholder="Tu contraseña"
+                            autocomplete="new-password"
+                            required
+                            aria-describedby="registerPassword-error registerPassword-hint"
+                        >
+                        <button
+                            type="button"
+                            class="password-toggle-btn"
+                            aria-label="Mostrar/ocultar contraseña"
+                            tabindex="0"
+                        >
+                            <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            <svg class="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" style="display: none;">
+                                <path d="M9.88 9.88C9.33 10.43 9 11.16 9 12C9 13.66 10.34 15 12 15C12.84 15 13.57 14.67 14.12 14.12" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M10.73 5.08C11.15 5.03 11.57 5 12 5C19 5 23 13 23 13C22.18 14.65 20.83 16.17 19.08 17.34" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M6.61 6.61C4.62 8.07 3.26 10.15 2.5 12.63" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="registerPassword-hint" class="form-hint">Mínimo 8 caracteres con mayúsculas, minúsculas, números y símbolos</div>
+                    <div id="registerPassword-error" class="form-error" aria-live="polite"></div>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="form-group">
+                    <label for="registerPasswordConfirm" class="form-label">
+                        Confirmar Contraseña
+                        <span class="required-indicator" aria-label="Campo obligatorio">*</span>
+                    </label>
+                    <div class="input-container">
+                        <input
+                            type="password"
+                            id="registerPasswordConfirm"
+                            name="passwordConfirm"
+                            class="form-input password-input"
+                            placeholder="Confirma tu contraseña"
+                            autocomplete="new-password"
+                            required
+                            aria-describedby="registerPasswordConfirm-error"
+                        >
+                        <button
+                            type="button"
+                            class="password-toggle-btn"
+                            aria-label="Mostrar/ocultar contraseña"
+                            tabindex="0"
+                        >
+                            <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            <svg class="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" style="display: none;">
+                                <path d="M9.88 9.88C9.33 10.43 9 11.16 9 12C9 13.66 10.34 15 12 15C12.84 15 13.57 14.67 14.12 14.12" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M10.73 5.08C11.15 5.03 11.57 5 12 5C19 5 23 13 23 13C22.18 14.65 20.83 16.17 19.08 17.34" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M6.61 6.61C4.62 8.07 3.26 10.15 2.5 12.63" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="registerPasswordConfirm-error" class="form-error" aria-live="polite"></div>
+                </div>
+
+                <!-- Submit and Cancel Buttons -->
+                <div class="form-group modal-actions">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg register-submit-btn">
+                        <span class="btn-text">Crear Cuenta</span>
+                        <div class="btn-loading" style="display: none;">
+                            <div class="loading-spinner" aria-hidden="true"></div>
+                            <span>Registrando...</span>
+                        </div>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-block modal-cancel-btn">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- JavaScript Imports -->
     <script type="module" src="js/supabase.js"></script>
     <script type="module" src="js/config.js"></script>
     <script type="module" src="js/utils.js"></script>
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/login.js"></script>
+    <script type="module" src="js/register.js"></script>
 </body>
 </html>

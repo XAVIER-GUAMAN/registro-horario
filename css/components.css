@@ -1006,3 +1006,171 @@
     transform: rotate(360deg);
   }
 }
+
+/* ====================================================================
+   10. REGISTER MODAL COMPONENT
+   ==================================================================== */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-4);
+  z-index: 10000;
+  animation: fadeIn var(--transition-base);
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  z-index: -1;
+}
+
+.modal-content {
+  background-color: var(--bg-primary);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-2xl);
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  z-index: 10001;
+  animation: slideUp var(--transition-base);
+}
+
+.register-modal-content {
+  max-height: 95vh;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-6);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  padding: var(--spacing-1);
+  cursor: pointer;
+  color: var(--color-gray-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  transition: all var(--transition-base);
+  width: 32px;
+  height: 32px;
+}
+
+.modal-close-btn:hover {
+  background-color: var(--color-gray-100);
+  color: var(--text-primary);
+}
+
+.modal-close-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.register-form {
+  padding: var(--spacing-6);
+}
+
+.modal-actions {
+  display: flex;
+  gap: var(--spacing-3);
+  flex-direction: column;
+  margin-top: var(--spacing-6);
+}
+
+.modal-actions .btn {
+  width: 100%;
+}
+
+.modal-cancel-btn {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.modal-cancel-btn:hover {
+  background-color: var(--color-gray-200);
+  border-color: var(--color-gray-300);
+}
+
+.form-input.invalid {
+  border-color: var(--color-error);
+  background-color: var(--color-error-50);
+}
+
+.form-input.invalid:focus {
+  box-shadow: 0 0 0 3px var(--color-error-50);
+  border-color: var(--color-error);
+}
+
+.register-submit-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.register-submit-btn .btn-text,
+.register-submit-btn .btn-loading {
+  transition: opacity var(--transition-base), transform var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-submit-btn.loading .btn-text {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.register-submit-btn.loading .btn-loading {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive Modal */
+@media (max-width: 640px) {
+  .modal-content {
+    max-width: calc(100vw - 32px);
+  }
+
+  .modal-header {
+    padding: var(--spacing-4);
+  }
+
+  .register-form {
+    padding: var(--spacing-4);
+  }
+
+  .modal-title {
+    font-size: var(--font-size-lg);
+  }
+}

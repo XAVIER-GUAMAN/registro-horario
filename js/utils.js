@@ -95,6 +95,12 @@ export const DateUtils = {
  * Utilidades para validación de formularios
  */
 export const ValidationUtils = {
+    validatePasswordLogin(password) {
+    if (!password || typeof password !== 'string') {
+        return { isValid: false, message: 'Contraseña requerida' };
+    }
+    return { isValid: true };
+     },
     /**
      * Valida un email
      */
