@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de Registro Horario - Dashboard Principal">
+    <meta name="author" content="Sistema de Gestión de Empleados">
+    <title>Dashboard - Registro Horario</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+    <!-- CSS Design System -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+
+    <!-- Application Styles -->
+    <style>
+        /* Application-specific styles */
+        .horas {
+            font-weight: bold;
+            color: var(--color-success);
+        }
+
+        .control-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+            margin-bottom: var(--spacing-4);
+        }
+
+        /* App Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-700) 100%);
+            color: white;
+            padding: var(--spacing-4) 0;
+            margin-bottom: var(--spacing-6);
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-4);
+        }
+
+        .app-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-4);
+        }
+
+        .user-welcome {
+            font-size: var(--font-size-sm);
+            margin: 0;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: var(--spacing-2) var(--spacing-3);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-xs);
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Statistics Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-6);
+        }
+
+        .stat-card {
+            background: white;
+            padding: var(--spacing-4);
+            border-radius: calc(var(--border-radius) * 1.5);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-base);
+        }
+
+        .stat-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-2);
+        }
+
+        .stat-value {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin: 0;
+            margin-top: var(--spacing-1);
+        }
+
+        /* Time Cards for Mobile */
+        .time-cards {
+            display: none;
+            gap: var(--spacing-3);
+        }
+
+        .time-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-4);
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow var(--transition-base);
+        }
+
+        .time-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-3);
+            padding-bottom: var(--spacing-2);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-date {
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+        }
+
+        .card-day {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            background: var(--color-gray-100);
+            padding: var(--spacing-1) var(--spacing-2);
+            border-radius: var(--border-radius-sm);
+        }
+
+        .card-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-3);
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field-label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-1);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .field-input {
+            padding: var(--spacing-2);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            font-size: var(--font-size-sm);
+            transition: border-color var(--transition-base);
+        }
+
+        .field-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-50);
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: var(--spacing-2);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .hours-display {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-success);
+        }
+
+        .hours-label {
+            font-size: var(--font-size-xs);
+            color: var(--text-tertiary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 639px) {
+            .control-panel {
+                flex-direction: column;
+            }
+
+            .control-panel .btn {
+                width: 100%;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: var(--spacing-3);
+                text-align: center;
+            }
+
+            .user-section {
+                flex-direction: column;
+                gap: var(--spacing-2);
+            }
+
+            .table-wrapper {
+                display: none;
+            }
+
+            .time-cards {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 640px) {
+            .time-cards {
+                display: none;
+            }
+        }
+
+        /* Unsaved Changes Indicator */
+        .unsaved-indicator {
+            position: fixed;
+            top: var(--spacing-4);
+            right: var(--spacing-4);
+            background: var(--color-warning);
+            color: white;
+            padding: var(--spacing-2) var(--spacing-3);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+            box-shadow: var(--shadow-md);
+            z-index: var(--z-fixed);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all var(--transition-base);
+        }
+
+        .unsaved-indicator.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner-large"></div>
+            <p class="loading-text">Cargando aplicación...</p>
+        </div>
+    </div>
+
+    <!-- Unsaved Changes Indicator -->
+    <div id="unsavedIndicator" class="unsaved-indicator">
+        <span>⚠️ Cambios sin guardar</span>
+    </div>
+
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="app-title">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 4L9 7V9C9 10.1 9.9 11 11 11V22H13V11C14.1 11 15 10.1 15 9V7L21 9Z" fill="currentColor"/>
+                </svg>
+                📅 Registro Horario
+            </h1>
+            <div class="user-section">
+                <p id="userWelcome" class="user-welcome">Bienvenido, Usuario</p>
+                <button onclick="logout()" class="logout-btn">
+                    Cerrar Sesión
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Statistics Dashboard -->
+        <section class="stats-grid" aria-label="Estadísticas de trabajo">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: var(--color-primary-50); color: var(--color-primary);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 4L9 7V9C9 10.1 9.9 11 11 11V22H13V11C14.1 11 15 10.1 15 9V7L21 9Z"/>
+                    </svg>
+                </div>
+                <p class="stat-value" id="totalHours">0.00</p>
+                <p class="stat-label">Horas Totales</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: var(--color-success-50); color: var(--color-success);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"/>
+                    </svg>
+                </div>
+                <p class="stat-value" id="workingDays">0</p>
+                <p class="stat-label">Días Trabajados</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: var(--color-info-50); color: var(--color-info);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 3C13.55 3 14 3.45 14 4V12C14 12.55 13.55 13 13 13C12.45 13 12 12.55 12 12V4C12 3.45 12.45 3 13 3ZM21 11H20C19.45 11 19 11.45 19 12C19 12.55 19.45 13 20 13H21C21.55 13 22 12.55 22 12C22 11.45 21.55 11 21 11ZM4 11C3.45 11 3 11.45 3 12C3 12.55 3.45 13 4 13H5C5.55 13 6 12.55 6 12C6 11.45 5.55 11 5 11H4Z"/>
+                    </svg>
+                </div>
+                <p class="stat-value" id="avgHours">0.00</p>
+                <p class="stat-label">Promedio Diario</p>
+            </div>
+        </section>
+
+        <!-- Controls Section -->
+        <section class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="mes" class="form-label">Seleccionar Mes</label>
+                    <input type="month" id="mes" class="form-input" style="max-width: 300px;">
+                </div>
+
+                <div class="control-panel">
+                    <button onclick="aplicarATodos()" class="btn btn-secondary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"/>
+                        </svg>
+                        Aplicar Horario
+                    </button>
+                    <button onclick="guardarEnSupabase()" class="btn btn-success">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17 3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V7L17 3ZM19 19H5V5H16.17L19 7.83V19ZM12 12C10.34 12 9 13.34 9 15S10.34 18 12 18 15 16.66 15 15 13.66 12 12 12Z"/>
+                        </svg>
+                        💾 Guardar
+                    </button>
+                    <button onclick="exportarExcel()" class="btn btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20Z"/>
+                        </svg>
+                        📊 Exportar Excel
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Desktop Table View -->
+        <section class="card table-wrapper">
+            <div class="card-body p-0">
+                <table id="tabla" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Día</th>
+                            <th>Entrada</th>
+                            <th>Pausa</th>
+                            <th>Reanuda</th>
+                            <th>Salida</th>
+                            <th class="text-center">Horas</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Mobile Cards View -->
+        <section class="time-cards" id="timeCards" aria-label="Registro de horarios">
+            <!-- Dynamic cards will be populated here -->
+        </section>
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal-backdrop hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirmar Acción</h3>
+                <button type="button" class="modal-close" onclick="closeConfirmModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">¿Estás seguro que deseas realizar esta acción?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeConfirmModal()">
+                    Cancelar
+                </button>
+                <button type="button" id="confirmButton" class="btn btn-primary">
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Imports -->
+    <script type="module" src="./js/components.js"></script>
+    <script type="module" src="./js/app.js"></script>
+
+</body>
+</html>
