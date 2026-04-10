@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de Registro Horario - Inicio de Sesión">
+    <meta name="author" content="Sistema de Gestión de Empleados">
+    <title>Iniciar Sesión - Registro Horario</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- CSS Imports - Design System -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="css/components.css" as="style">
+</head>
+<body>
+    <!-- Main Login Container -->
+    <main class="login-container" role="main">
+        <!-- Background Overlay for Gradient -->
+        <div class="login-background" aria-hidden="true"></div>
+
+        <!-- Login Content -->
+        <div class="login-content">
+            <!-- Company Header -->
+            <header class="login-header">
+                <div class="login-logo" role="img" aria-label="Logo de la empresa">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-icon">
+                        <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 4L9 7V9C9 10.1 9.9 11 11 11V22H13V11C14.1 11 15 10.1 15 9V7L21 9Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h1 class="login-title">Registro Horario</h1>
+                <p class="login-subtitle">Sistema de Gestión de Tiempo</p>
+            </header>
+
+            <!-- Login Form Card -->
+            <div class="login-card">
+                <form id="loginForm" class="login-form" novalidate>
+                    <h2 class="form-title">Iniciar Sesión</h2>
+                    <p class="form-description">Introduce tus credenciales para acceder al sistema</p>
+
+                    <!-- Alert Container -->
+                    <div id="alertContainer" class="alert-container" role="alert" aria-live="polite" aria-atomic="true"></div>
+
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            Correo Electrónico
+                            <span class="required-indicator" aria-label="Campo obligatorio">*</span>
+                        </label>
+                        <div class="input-container">
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-input"
+                                placeholder="tu.email@empresa.com"
+                                autocomplete="email"
+                                autocapitalize="none"
+                                spellcheck="false"
+                                required
+                                aria-describedby="email-error email-hint"
+                            >
+                            <div class="input-icon" aria-hidden="true">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                                    <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2" fill="none"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div id="email-hint" class="form-hint">Introduce tu dirección de correo corporativo</div>
+                        <div id="email-error" class="form-error" aria-live="polite"></div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <label for="password" class="form-label">
+                            Contraseña
+                            <span class="required-indicator" aria-label="Campo obligatorio">*</span>
+                        </label>
+                        <div class="input-container">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-input password-input"
+                                placeholder="Tu contraseña"
+                                autocomplete="current-password"
+                                required
+                                aria-describedby="password-error password-hint"
+                            >
+                            <button
+                                type="button"
+                                class="password-toggle-btn"
+                                aria-label="Mostrar/ocultar contraseña"
+                                tabindex="0"
+                            >
+                                <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+                                </svg>
+                                <svg class="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" style="display: none;">
+                                    <path d="M9.88 9.88C9.33 10.43 9 11.16 9 12C9 13.66 10.34 15 12 15C12.84 15 13.57 14.67 14.12 14.12" stroke="currentColor" stroke-width="2" fill="none"/>
+                                    <path d="M10.73 5.08C11.15 5.03 11.57 5 12 5C19 5 23 13 23 13C22.18 14.65 20.83 16.17 19.08 17.34" stroke="currentColor" stroke-width="2" fill="none"/>
+                                    <path d="M6.61 6.61C4.62 8.07 3.26 10.15 2.5 12.63" stroke="currentColor" stroke-width="2" fill="none"/>
+                                    <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="password-hint" class="form-hint">Mínimo 8 caracteres con mayúsculas, minúsculas, números y símbolos</div>
+                        <div id="password-error" class="form-error" aria-live="polite"></div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block btn-lg login-submit-btn">
+                            <span class="btn-text">Iniciar Sesión</span>
+                            <div class="btn-loading" style="display: none;">
+                                <div class="loading-spinner" aria-hidden="true"></div>
+                                <span>Autenticando...</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Help Links -->
+                    <div class="login-help">
+                        <p class="help-text">
+                            ¿Problemas para acceder?
+                            <a href="mailto:soporte@empresa.com" class="help-link">
+                                Contactar soporte técnico
+                            </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Footer Information -->
+            <footer class="login-footer">
+                <div class="footer-content">
+                    <p class="footer-text">
+                        Sistema de Registro Horario v2.0 &copy; 2026
+                    </p>
+                    <p class="footer-legal">
+                        <a href="/privacy.html" class="footer-link">Política de Privacidad</a>
+                        &nbsp;|&nbsp;
+                        <a href="/terms.html" class="footer-link">Términos de Uso</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;" aria-hidden="true">
+        <div class="loading-content">
+            <div class="loading-spinner-large"></div>
+            <p class="loading-text">Iniciando sesión...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript Imports -->
+    <script type="module" src="js/supabase.js"></script>
+    <script type="module" src="js/config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/login.js"></script>
+</body>
+</html>
