@@ -431,7 +431,7 @@ class AuthManager {
      * Redirige a la página principal
      */
     redirectToMain() {
-        window.location.href = '/main.html';
+        window.location.href = '/app.html';
     }
 
     /**

@@ -450,7 +450,7 @@ class LoginController {
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         // Verificar que estamos en la página de login
-        if (window.location.pathname === '/' || window.location.pathname.endsWith('login.html')) {
+        if (window.location.pathname === '/' || window.location.pathname.endsWith('index.html')) {
             // Inicializar el controlador de login
             window.loginController = new LoginController();
         }
